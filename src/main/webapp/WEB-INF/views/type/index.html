@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="/layout :: head">
+    <title>Danh sách tài liệu</title>
+</head>
+
+
+
+<body class="bg-body-tertiary">
+    <nav th:replace="/layout :: menu "></nav>
+    <nav th:replace="/layout :: notify "></nav>
+
+    <div class="container">
+        <div class="my-3 shadow-sm bg-white p-3 d-flex align-items-center justify-content-between">
+            <h3 class="mb-0">Danh sách phân loại</h3>
+            <a th:href="@{/types/create}" class="btn btn-primary">Thêm mới</a>
+        </div>
+        <div class="shadow-sm bg-white p-3">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Tên</th>
+                        <th>Số lượng tài liệu</th>
+                        <th>Sửa</th>
+                        <th>Xóa</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="item,status : ${types}">
+                        <td th:text="${status.count}"></td>
+                        <td th:text="${item.name}"></td>
+                        <td th:text="${item.count}"></td>
+                        <td><a th:href="@{/types/{id}/edit(id=${item.id})}" class="btn btn-sm btn-info">Sửa</a></td>
+                        <td><a th:href="@{/types/{id}/delete(id=${item.id})}" class="btn btn-sm btn-danger btn-destroy">Xóa</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+    <footer th:replace="/layout :: footer"></footer>
+</body>
+</html>

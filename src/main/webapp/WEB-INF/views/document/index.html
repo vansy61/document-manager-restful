@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="/layout :: head">
+    <title>Danh sách tài liệu</title>
+</head>
+
+
+
+<body class="bg-body-tertiary">
+    <nav th:replace="/layout :: menu "></nav>
+    <nav th:replace="/layout :: notify "></nav>
+
+    <div class="container">
+        <div class="my-3 shadow-sm bg-white p-3 d-flex align-items-center justify-content-between">
+            <h3 class="mb-0">Danh sách tài liệu</h3>
+            <a th:href="@{/documents/create}" class="btn btn-primary">Thêm mới</a>
+        </div>
+        <div class="shadow-sm bg-white p-3">
+            <form action="/documents" class="d-flex justify-content-between mb-4" id="search-form">
+                <input type="hidden" name="page" th:value="${page}">
+                <div class="d-flex align-items-center justify-content-between w-50">
+                    <input type="text"
+                           name="search"
+                           class="form-control submit-on-enter"
+                           placeholder="Tìm kiếm theo mã, tên, mô tả, enter để tìm"
+                           th:value="${search}"
+                    >
+                    <select name="typeId" class="form-select ms-3 w-50 submit-on-change">
+                        <option value="">Phân Loại</option>
+                        <option th:each="type : ${types}"
+                                th:value="${type.id}"
+                                th:text="${type.name}"
+                                th:selected="${type.id == typeId}"
+                        ></option>
+                    </select>
+                </div>
+                <select name="sort" class="form-select ms-3 w-25 submit-on-change">
+                    <option th:each="option : ${sortOptions}"
+                            th:value="${option.key}"
+                            th:text="${option.value}"
+                            th:selected="${option.key == sort}"
+                    ></option>
+                </select>
+            </form>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Mã</th>
+                        <th>Tên</th>
+                        <th>Năm</th>
+                        <th>Mô tả</th>
+                        <th>Phân loại</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="item,status : ${documents}">
+                        <td th:text="${item.code}"></td>
+                        <td th:text="${item.name}"></td>
+                        <td th:text="${item.year}"></td>
+                        <td th:text="${item.description}"></td>
+                        <td th:text="${item.type.getName()}"></td>
+                        <td>
+                            <a th:href="@{/documents/{id}/edit(id=${item.id})}"
+                               class="btn btn-sm btn-info">
+                                Sửa
+                            </a>
+                            <a th:href="@{/documents/{id}/delete(id=${item.id})}"
+                               class="btn btn-sm btn-danger btn-destroy">
+                                Xóa
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="d-flex align-items-center justify-content-between mt-3">
+            <div>
+                <select name="size" form="search-form" class="form-select submit-on-change">
+                    <option
+                        th:each="option : ${sizeOptions}"
+                        th:value="${option}"
+                        th:text="${option}"
+                        th:selected="${option == size}"
+                    ></option>
+                </select>
+            </div>
+            <div class="text-right mt-3">
+                <a class="btn btn-outline-primary btn-sm" th:if="${documents.hasPrevious()}"
+                   th:href="@{/documents(page=${documents.number - 1}, size=${documents.size}, search=${search}, typeId=${typeId}, sort=${sort})}">Trước</a>
+                <span th:text="${documents.number + 1}"></span> / <span th:text="${documents.totalPages}"></span>
+                <a class="btn btn-outline-primary btn-sm" th:if="${documents.hasNext()}"
+                   th:href="@{/documents(page=${documents.number + 1}, size=${documents.size}, search=${search}, typeId=${typeId}, sort=${sort})}">Sau</a>
+            </div>
+
+        </div>
+
+    </div>
+    <footer th:replace="/layout :: footer"></footer>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="/layout :: head">
+    <title>Thêm Tài Liệu</title>
+</head>
+
+
+<body class="bg-body-tertiary">
+<nav th:replace="/layout :: menu "></nav>
+<nav th:replace="/layout :: notify "></nav>
+
+
+<div class="container">
+    <div class="my-3 shadow-sm bg-white p-3 d-flex align-items-center justify-content-between">
+        <h3 class="mb-0">Thêm mới phân loại</h3>
+    </div>
+    <div class="p-3 shadow-sm bg-white mt-3">
+        <form th:action="@{/types/create}" th:method="post" th:object="${type}">
+            <div class="row justify-content-center">
+                <div class="col-3">
+                    <div class="mb-3">
+                        <label class="form-label">Tên</label>
+                        <input type="text" class="form-control"
+                               th:classappend="${#fields.hasErrors('name')}? 'is-invalid' : ''"
+                               th:field="*{name}">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                    </div>
+                    <div class="text-center">
+                        <a th:href="@{/types}" class="btn btn-outline-secondary">Hủy</a>
+                        <button class="btn btn-primary px-5">Tạo Mới</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+</div>
+<footer th:replace="/layout :: footer"></footer>
+</body>
+</html>

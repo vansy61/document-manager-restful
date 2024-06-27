@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="/layout :: head">
+    <title>List Product</title>
+</head>
+
+
+<body class="bg-body-tertiary">
+<nav th:replace="/layout :: menu "></nav>
+<nav th:replace="/layout :: notify "></nav>
+
+
+<div class="container">
+    <div class="my-3 shadow-sm bg-white p-3 d-flex align-items-center justify-content-between">
+        <h3 class="mb-0">Chỉnh sửa tài liệu <span th:text="${document.name}"></span></h3>
+    </div>
+    <div class="p-3 shadow-sm bg-white mt-3">
+
+        <form th:action="@{/documents/{id}/update(id=${document.id})}" th:method="post" th:object="${document}" id="document-form">
+            <div class="row">
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label class="form-label">Mã</label>
+                        <input type="text" class="form-control"
+                               th:classappend="${#fields.hasErrors('code')}? 'is-invalid' : ''"
+                               th:field="*{code}">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('code')}" th:errors="*{code}"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tên</label>
+                        <input type="text" class="form-control"
+                               th:classappend="${#fields.hasErrors('name')}? 'is-invalid' : ''"
+                               th:field="*{name}">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Năm</label>
+                        <input type="number" class="form-control"
+                               th:classappend="${#fields.hasErrors('year')}? 'is-invalid' : ''"
+                               th:field="*{year}">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></div>
+
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label class="form-label">Phân Loại</label>
+                        <select id="province" th:field="*{type}" class="form-select">
+                            <option
+                                    th:each="type : ${types}"
+                                    th:value="${type.id}"
+                                    th:text="${type.name}"
+                            ></option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Mô tả</label>
+                        <textarea class="form-control"
+                                  th:classappend="${#fields.hasErrors('description')}? 'is-invalid' : ''"
+                                  th:field="*{description}" rows="5"></textarea>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="text-center">
+                        <a th:href="@{/documents}" class="btn btn-outline-secondary">Hủy</a>
+                        <button class="btn btn-primary px-5">Cập nhật</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+</div>
+<footer th:replace="/layout :: footer"></footer>
+</body>
+</html>
