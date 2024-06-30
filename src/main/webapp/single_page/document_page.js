@@ -20,6 +20,11 @@ const showDocumentPage = async () => {
 
 const showNewDocument = async () => {
     const $modal = addModal("Thêm mới tài liệu", true);
+
+    // sống chậm lại ....
+    await sleep(1500);
+    // -----------------------
+
     let types = await getTypes();
     let template = newDocumentTemplate(types);
     $modal.find(".modal-body").html(template);
@@ -83,6 +88,10 @@ const renderDocumentsWithSearchForm = async () => {
     let tableBody = $("#table-document-body");
     addLoadingRow(tableBody);
 
+    // sống chậm lại ....
+    await sleep(1500);
+    // -----------------------
+
     const documents = await getDocuments(formData);
     tableBody.empty();
 
@@ -122,6 +131,11 @@ const renderDocumentsWithSearchForm = async () => {
 const showEditDocument = async (target) => {
     let $modal = addModal("Sửa tài liệu", true);
     let documentId = target.attr("data-id");
+
+    // sống chậm lại ....
+    await sleep(1500);
+    // -----------------------
+
     const [types, document] = await Promise.all([getTypes(), getDocument(documentId)]);
 
     let template = editDocumentTemplate(types, document);
@@ -218,9 +232,11 @@ const deleteDocumentById = (url) => {
     });
 }
 
-// Initialize the document page
+
 $("#document-page").click(function(e) {
     e.preventDefault();
     showDocumentPage();
 });
+
+// start
 showDocumentPage();
