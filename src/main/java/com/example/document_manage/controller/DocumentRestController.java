@@ -11,16 +11,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/api/documents")
 public class DocumentRestController {
     @Autowired
@@ -33,7 +36,7 @@ public class DocumentRestController {
         return typeService.findAll();
     }
 
-    @RequestMapping("")
+    @RequestMapping
     public ResponseEntity<Page<Document>> index(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
@@ -46,39 +49,57 @@ public class DocumentRestController {
 
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<Document> create(
-            @Validated @ModelAttribute Document document,
+    @PostMapping
+    public ResponseEntity<?> create(
+            @Validated @RequestBody Document document,
             BindingResult bindingResult
     ) {
         if (bindingResult.hasFieldErrors()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            Map<String, String> errors = new HashMap<>();
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                errors.put(error.getField(), error.getDefaultMessage());
+            }
+            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
         documentService.save(document);
         return new ResponseEntity<>(document, HttpStatus.CREATED);
     }
 
 
-    @PutMapping("/{id}/update")
-    public ResponseEntity<Document> update(
-            @Validated @ModelAttribute Document document,
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(
+            @Validated @RequestBody Document document,
             BindingResult bindingResult
     ) {
         if (bindingResult.hasFieldErrors()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            Map<String, String> errors = new HashMap<>();
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                errors.put(error.getField(), error.getDefaultMessage());
+            }
+            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
         documentService.save(document);
         return new ResponseEntity<>(document, HttpStatus.ACCEPTED);
 
     }
 
-    @DeleteMapping("/{id}/delete")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Document> delete(@PathVariable Long id) {
         Document document = documentService.findById(id);
         if(document == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         documentService.delete(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(document, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Document> show(@PathVariable Long id) {
+        Document document = documentService.findById(id);
+        if(document == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(document, HttpStatus.OK);
     }
 }

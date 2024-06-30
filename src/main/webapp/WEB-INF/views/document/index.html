@@ -59,7 +59,9 @@
                         <td th:text="${item.name}"></td>
                         <td th:text="${item.year}"></td>
                         <td th:text="${item.description}"></td>
-                        <td th:text="${item.type.getName()}"></td>
+                        <td>
+                            <span th:if="${item.type != null}" th:text="${item.type.getName()}"></span>
+                        </td>
                         <td>
                             <a th:href="@{/documents/{id}/edit(id=${item.id})}"
                                class="btn btn-sm btn-info">
