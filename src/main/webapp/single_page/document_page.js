@@ -177,27 +177,21 @@ const deleteDocument = async (target) => {
 const getDocument = (id) => {
     return $.ajax({
         url: BASE_API_URL + "documents/" + id,
-        type: "GET",
-        dataType: "JSON",
-        contentType: "application/json; charset=utf-8"
+        type: "GET"
     });
 }
 
 const getDocuments = (search) => {
     return $.ajax({
         url: BASE_API_URL + "documents?" + search,
-        type: "GET",
-        dataType: "JSON",
-        contentType: "application/json; charset=utf-8"
+        type: "GET"
     });
 }
 
 const getTypes = () => {
     return $.ajax({
         url: BASE_API_URL + "types",
-        type: "GET",
-        dataType: "JSON",
-        contentType: "application/json; charset=utf-8"
+        type: "GET"
     });
 }
 
@@ -205,8 +199,6 @@ const postDocument = (data) => {
     return $.ajax({
         url: BASE_API_URL + "documents",
         type: "POST",
-        contentType: "application/json; charset=utf-8",
-        dataType: "JSON",
         data: JSON.stringify(data)
     });
 }
@@ -215,8 +207,6 @@ const updateDocument = (data) => {
     return $.ajax({
         url: BASE_API_URL + "documents/" + data.id,
         type: "PUT",
-        contentType: "application/json; charset=utf-8",
-        dataType: "JSON",
         data: JSON.stringify(data)
     });
 }
@@ -224,9 +214,7 @@ const updateDocument = (data) => {
 const deleteDocumentById = (url) => {
     return $.ajax({
         url: BASE_API_URL + url,
-        type: "DELETE",
-        dataType: "JSON",
-        contentType: "application/json; charset=utf-8"
+        type: "DELETE"
     });
 }
 
