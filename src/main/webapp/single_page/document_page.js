@@ -22,7 +22,7 @@ const showNewDocument = async () => {
     const $modal = addModal("Thêm mới tài liệu", true);
 
     // sống chậm lại ....
-    await sleep(1500);
+    await sleep(500);
     // -----------------------
 
     let types = await getTypes();
@@ -89,7 +89,7 @@ const renderDocumentsWithSearchForm = async () => {
     addLoadingRow(tableBody);
 
     // sống chậm lại ....
-    await sleep(1500);
+    await sleep(500);
     // -----------------------
 
     const documents = await getDocuments(formData);

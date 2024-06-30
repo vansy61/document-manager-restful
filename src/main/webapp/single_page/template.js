@@ -222,3 +222,54 @@ const editDocumentTemplate = (types, document) => {
         </div>
     `)
 }
+
+
+
+
+
+const typePageTemplate = () => {
+    return (`
+        <div class="my-3 shadow-sm bg-white p-3 d-flex align-items-center justify-content-between">
+            <h3 class="mb-0">Danh sách phân loại</h3>
+        </div>
+        <div class="shadow-sm bg-white p-3">
+            <table class="table table-bordered" >
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Tên</th>
+                        <th>Số lượng tài liệu</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="table-type-body">
+                    <tr>
+                        <td colspan="4" class="text-center">
+                            <div class="loading d-flex justify-content-center py-5">
+                                <div class="spinner-border" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    `)
+}
+
+const typeRowTemplate = (type) => {
+    return (`
+        <tr>
+            <td>${type.id}</td>
+            <td>${type.name}</td>
+            <td>${type.count}</td>
+            <td>
+                <a href="/types/${type.id}" data-id="${type.id}" class="btn btn-outline-primary edit-type">Sửa</a>
+                <a href="/types/${type.id}" class="btn btn-outline-danger delete-type">Xóa</a>
+            </td>
+        </tr>
+    `)
+}
+
+
